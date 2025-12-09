@@ -1,0 +1,417 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>M3T — Contact Test</title>
+
+  <!-- Tailwind CDN (plays nicely for prototyping) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Custom colors for Tailwind runtime -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            m3tViolet: '#A066CB',
+            m3tBlue: '#1736B1',
+            pageBg: '#0A1026'
+          }
+        }
+      }
+    }
+
+    document.getElementById("contactForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const form = new FormData(e.target);
+    const file = form.get("file");
+
+    let fileContent = null;
+    let fileName = null;
+
+    if (file && file.size > 0) {
+        const base64 = await toBase64(file);
+        fileContent = base64.split(",")[1];
+        fileName = file.name;
+    }
+
+    const data = {
+        full_name: form.get("full_name"),
+        email: form.get("email"),
+        phone: form.get("phone"),
+        service_needed: form.get("service_needed"),
+        project_details: form.get("project_details"),
+        consent: form.get("consent") === "on",
+        fileContent,
+        fileName
+    };
+
+    const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+    });
+
+    const result = await response.json();
+
+    if (result.success) {
+        alert("Your message has been submitted!");
+        e.target.reset();
+    } else {
+        alert("Error: " + result.error?.message);
+    }
+});
+
+function toBase64(file) {
+    return new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.readAsDataURL(file);
+    });
+}
+
+  </script>
+
+
+
+  <style>
+    /* subtle grid background used in the design */
+    .grid-bg {
+      background-image: radial-gradient(rgba(255,255,255,0.02) 1px, transparent 1px);
+      background-size: 24px 24px;
+    }
+
+    /* animations */
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0);} }
+    @keyframes fadeInSlow { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0);} }
+    .animate-fadeIn { animation: fadeIn 0.9s ease-out; }
+    .animate-fadeInSlow { animation: fadeInSlow 1.4s ease-out; }
+
+    /* small helper for input placeholder contrast on dark bg */
+    input::placeholder, textarea::placeholder { color: #9CA3AF; }
+
+    /* ensure file input button looks as intended in many browsers */
+    input[type=file]::-webkit-file-upload-button {
+      background: #1736B1;
+      color: #fff;
+      padding: .4rem .8rem;
+      border: none;
+      border-radius: .5rem;
+    }
+  </style>
+</head>
+
+<!-- CHAT LAUNCHER BUTTON -->
+<button id="chatBtn" 
+    class="fixed bottom-6 right-6 bg-gradient-to-r from-m3tViolet to-m3tBlue text-white p-4 rounded-full shadow-xl hover:opacity-90 transition">
+    💬
+</button>
+
+<!-- CHAT PANEL -->
+<div id="chatPanel" class="fixed bottom-20 right-6 w-80 bg-[#0C122E] border border-m3tViolet/30 rounded-2xl shadow-2xl hidden flex flex-col">
+
+    <!-- HEADER -->
+    <div class="p-4 bg-gradient-to-r from-m3tBlue to-[#080C1C] rounded-t-2xl text-white font-semibold">
+        M3T AI Assistant
+    </div>
+
+    <!-- CHAT BODY -->
+    <div id="chatMessages" class="flex-1 p-4 space-y-3 overflow-y-auto text-gray-200">
+        <!-- Initial message -->
+        <div class="bg-white/5 border border-m3tViolet/20 p-3 rounded-xl">
+            Hello! 👋 How can I assist you about M3T Data Management today?
+        </div>
+
+        <!-- Quick FAQ buttons -->
+        <div class="space-y-2">
+            <button onclick="sendFAQ('services')" 
+                class="w-full text-left px-3 py-2 bg-white/5 rounded-lg hover:bg-white/10 border border-m3tBlue/20">
+                What services do you offer?
+            </button>
+            <button onclick="sendFAQ('coverage')" 
+                class="w-full text-left px-3 py-2 bg-white/5 rounded-lg hover:bg-white/10 border border-m3tBlue/20">
+                What areas do you cover?
+            </button>
+            <button onclick="sendFAQ('contact')" 
+                class="w-full text-left px-3 py-2 bg-white/5 rounded-lg hover:bg-white/10 border border-m3tBlue/20">
+                How can I contact M3T?
+            </button>
+        </div>
+    </div>
+
+    <!-- INPUT AREA -->
+    <div class="p-3 border-t border-m3tViolet/20 flex items-center space-x-2">
+        <input id="userInput" 
+            class="flex-1 bg-[#11172E] text-gray-100 px-3 py-2 rounded-lg border border-m3tViolet/30 outline-none"
+            placeholder="Type a message..." />
+        <button onclick="sendMessage()" 
+            class="px-4 py-2 bg-gradient-to-r from-m3tViolet to-m3tBlue text-white rounded-lg shadow hover:opacity-90">
+            ➤
+        </button>
+    </div>
+</div>
+
+<script>
+    // toggle panel
+    document.getElementById('chatBtn').onclick = () => {
+        document.getElementById('chatPanel').classList.toggle('hidden');
+    };
+
+    async function sendMessage() {
+        const msg = document.getElementById('userInput').value;
+        if (!msg.trim()) return;
+
+        addUserMessage(msg);
+        document.getElementById('userInput').value = "";
+
+        const response = await fetch('/api/faq', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ message: msg })
+        });
+
+        const data = await response.json();
+        addBotMessage(data.reply);
+    }
+
+    async function sendFAQ(type) {
+        const response = await fetch('/api/faq', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ faq: type })
+        });
+
+        const data = await response.json();
+        addBotMessage(data.reply);
+    }
+
+    function addUserMessage(text) {
+        document.getElementById('chatMessages').innerHTML += `
+            <div class="text-right">
+                <div class="inline-block bg-m3tViolet/30 px-3 py-2 rounded-xl">${text}</div>
+            </div>`;
+    }
+
+    function addBotMessage(text) {
+        document.getElementById('chatMessages').innerHTML += `
+            <div class="bg-white/5 border border-m3tBlue/20 p-3 rounded-xl">${text}</div>`;
+        
+        const container = document.getElementById('chatMessages');
+        container.scrollTop = container.scrollHeight;
+    }
+</script>
+
+<body class="bg-pageBg text-gray-100">
+
+  <!-- simple header -->
+ <header class="bg-gradient-to-r from-m3tBlue/80 via-[#0A1530] to-[#040714] sticky top-0 z-40">
+    <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+        <a href="index.html" class="text-white text-2xl font-bold">
+            M3T Data Management
+        </a>
+
+        <nav class="space-x-6 text-gray-200">
+            <a href="index.html" class="hover:text-m3tViolet transition">Home</a>
+            <a href="about.html" class="hover:text-m3tViolet transition">About</a>
+            <a href="services_main.html" class="hover:text-m3tViolet transition">Services</a>
+            <a href="contact.html" class="hover:text-m3tViolet transition">Contact</a>
+        </nav>
+    </div>
+</header>
+
+  </header>
+
+  <!-- CONTACT SECTION – GLASS + VIOLET GLOW -->
+  <section id="contact" class="relative py-24 grid-bg">
+
+    <div class="relative max-w-6xl mx-auto px-6">
+
+      <!-- Section Title -->
+      <h2 class="text-center text-4xl font-extrabold text-white mb-4 tracking-wide">
+        Contact Us
+      </h2>
+      <p class="text-center text-gray-300 mb-14 max-w-2xl mx-auto">
+        Let’s discuss how M3T can support your next research project with accuracy,
+        quality, and insight-driven results.
+      </p>
+
+      <div class="grid md:grid-cols-2 gap-10">
+
+        <!-- LEFT: FORM -->
+        <form class="backdrop-blur-md bg-white/5 border border-m3tViolet/20 rounded-2xl p-8 shadow-lg animate-fadeIn"
+              action="#" method="POST" enctype="multipart/form-data" novalidate>
+
+          <!-- NAME -->
+          <div class="mb-6 relative">
+            <label class="absolute -top-3 left-4 px-2 text-sm text-m3tViolet bg-pageBg">Full Name *</label>
+            <input type="text" name="name" required
+                   class="w-full px-4 py-4 rounded-xl bg-pageBg border border-m3tViolet/40 text-gray-100
+                          focus:ring-2 focus:ring-m3tViolet/60 outline-none transition"
+                   placeholder="Juan Dela Cruz" />
+          </div>
+
+          <!-- EMAIL + PHONE -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+            <div class="relative">
+              <label class="absolute -top-3 left-4 px-2 text-sm text-m3tViolet bg-pageBg">Email *</label>
+              <input type="email" name="email" required
+                     class="w-full px-4 py-4 rounded-xl bg-pageBg border border-m3tViolet/40 text-gray-100
+                            focus:ring-2 focus:ring-m3tViolet/60 outline-none"
+                     placeholder="you@example.com" />
+            </div>
+
+            <div class="relative">
+              <label class="absolute -top-3 left-4 px-2 text-sm text-m3tViolet bg-pageBg">Phone *</label>
+              <input type="tel" name="phone" required
+                     class="w-full px-4 py-4 rounded-xl bg-pageBg border border-m3tViolet/40 text-gray-100
+                            focus:ring-2 focus:ring-m3tViolet/60 outline-none"
+                     placeholder="0915 123 4567" />
+            </div>
+
+          </div>
+
+          <!-- SERVICE TYPE -->
+          <div class="mt-6 relative">
+            <label class="absolute -top-3 left-4 px-2 text-sm text-m3tViolet bg-pageBg">Service Needed *</label>
+            <select name="service" required
+                    class="w-full px-4 py-4 rounded-xl bg-pageBg border border-m3tViolet/40 text-gray-300
+                           focus:ring-2 focus:ring-m3tViolet/60 outline-none">
+              <option value="">Select a service</option>
+              <option>Quantitative Research</option>
+              <option>Qualitative Research</option>
+              <option>Data Processing</option>
+              <option>Dealer / Retail Studies</option>
+              <option>Mystery Shopping</option>
+              <option>Traffic Count / Mapping</option>
+              <option>Others</option>
+            </select>
+          </div>
+
+          <!-- MESSAGE -->
+          <div class="mt-6 relative">
+            <label class="absolute -top-3 left-4 px-2 text-sm text-m3tViolet bg-pageBg">Project Details *</label>
+            <textarea name="message" rows="5" required
+                      class="w-full px-4 py-4 rounded-xl bg-pageBg border border-m3tViolet/40 text-gray-100
+                             focus:ring-2 focus:ring-m3tViolet/60 outline-none"
+                      placeholder="Describe your project goals, scope, and requirements..."></textarea>
+          </div>
+
+          <!-- FILE UPLOAD -->
+          <div class="mt-6">
+            <label class="block mb-2 text-gray-300">Attach File (Optional)</label>
+            <input type="file" name="file"
+                   class="w-full text-gray-200 bg-pageBg border border-m3tViolet/40 rounded-xl px-4 py-3" />
+          </div>
+
+          <!-- CONSENT -->
+          <label class="flex items-center space-x-3 mt-6">
+            <input type="checkbox" required class="w-5 h-5 accent-m3tViolet">
+            <span class="text-gray-300 text-sm">I agree to the processing of my data.</span>
+          </label>
+
+          <!-- SUBMIT BUTTON -->
+          <button type="submit"
+                  class="w-full mt-8 py-4 rounded-xl bg-gradient-to-r from-m3tViolet to-m3tBlue
+                         text-white font-semibold text-lg shadow-lg hover:opacity-90 transition-all duration-300
+                         focus:ring-4 focus:ring-m3tViolet/40">
+            Send Message
+          </button>
+
+        </form>
+
+        <!-- RIGHT: CONTACT CARD -->
+        <aside class="bg-[#11182F] border border-m3tBlue/30 rounded-2xl p-10 shadow-xl animate-fadeInSlow">
+
+          <h3 class="text-3xl font-bold text-white mb-4">Reach Us Directly</h3>
+
+          <p class="text-gray-300 leading-relaxed">
+            Whether it’s consumer research, market insights, or data processing,
+            our team is ready to support your business goals professionally.
+          </p>
+
+          <div class="space-y-6 mt-8">
+
+            <div>
+              <h4 class="text-m3tViolet font-semibold text-lg">📍 Office Address</h4>
+              <p class="text-gray-300">8 Ramos Building, F.B. Javier, Caniogan, Pasig City 1606</p>
+            </div>
+
+            <div>
+              <h4 class="text-m3tViolet font-semibold text-lg">📞 Contact Numbers</h4>
+              <p class="text-gray-300">0915-946-5969</p>
+              <p class="text-gray-300">756-1840</p>
+            </div>
+
+            <div>
+              <h4 class="text-m3tViolet font-semibold text-lg">✉ Email</h4>
+              <p class="text-gray-300">camano_daisy@yahoo.com</p>
+            </div>
+
+          </div>
+
+        </aside>
+
+      </div>
+    </div>
+  </section>
+  <footer class="bg-[#080C1C] text-gray-300 mt-24 border-t border-m3tViolet/20">
+  <div class="max-w-6xl mx-auto px-6 py-16 grid grid-cols-1 md:grid-cols-4 gap-10">
+
+    <!-- Company -->
+    <div>
+      <h3 class="text-white font-bold text-xl mb-4">M3T Data Management</h3>
+      <p class="text-gray-400 leading-relaxed">
+        Specialists in Market Research, Field Operations, Data Processing,
+        and Data-Driven Insights across the Philippines.
+      </p>
+    </div>
+
+    <!-- Quick Links -->
+    <div>
+      <h4 class="text-m3tViolet font-semibold text-lg mb-4">Quick Links</h4>
+      <ul class="space-y-2">
+        <li><a href="index.html" class="hover:text-m3tViolet transition">Home</a></li>
+        <li><a href="about.html" class="hover:text-m3tViolet transition">About</a></li>
+        <li><a href="services_main.html" class="hover:text-m3tViolet transition">Services</a></li>
+        <li><a href="contact.html" class="hover:text-m3tViolet transition">Contact</a></li>
+      </ul>
+    </div>
+
+    <!-- Services -->
+    <div>
+      <h4 class="text-m3tViolet font-semibold text-lg mb-4">Our Services</h4>
+      <ul class="space-y-2">
+                <li><a href="services_quan.html" class="hover:text-m3tViolet transition">Quantitative Research</a></li>
+                <li><a href="services_qual.html" class="hover:text-m3tViolet transition">Qualitative Research</a></li>
+                <li><a href="services_mystshop.html" class="hover:text-m3tViolet transition">Mystery Shopping</a></li>
+                <li><a href="services_dataprocess" class="hover:text-m3tViolet transition">Data Process</a></li>
+                <li><a href="services_retailstudies" class="hover:text-m3tViolet transition">Retail Studies</a></li>
+                <li><a href="services_traffic_count" class="hover:text-m3tViolet transition">Traffic Account</a></li>
+                <li><a href="services_marketmapping" class="hover:text-m3tViolet transition">Market Mapping </a></li>
+
+      </ul>
+    </div>
+
+    <!-- Contact -->
+    <div>
+      <h4 class="text-m3tViolet font-semibold text-lg mb-4">Contact Info</h4>
+      <p class="text-gray-400">📍 8 Ramos Bldg., F.B. Javier, Caniogan, Pasig City 1606</p>
+      <p class="mt-2">📞 0915-946-5969</p>
+      <p>📞 756-1840</p>
+      <p class="mt-2">✉ camano_daisy@yahoo.com</p>
+    </div>
+
+  </div>
+
+  <div class="border-t border-m3tViolet/10">
+    <p class="text-center text-gray-500 py-6 text-sm">
+      © 2025 ArcnoTech Solution Services. All rights reserved.
+    </p>
+  </div>
+</footer>
+
+</body>
+</html>

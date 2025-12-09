@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>M3T — Qualitative Research</title>
+
+<!-- Tailwind CDN -->
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+    theme: {
+        extend: {
+            colors: {
+                m3tViolet: "#A066CB",
+                m3tBlue: "#1736B1",
+                pageBg: "#0A1026"
+            }
+        }
+    }
+}
+</script>
+
+<style>
+.grid-bg { background-image: radial-gradient(rgba(255,255,255,0.02) 1px, transparent 1px); background-size: 28px 28px; }
+.lead { color: #d1d5db; }
+</style>
+</head>
+<body class="bg-pageBg text-gray-200">
+
+<!-- NAVIGATION -->
+<header class="bg-gradient-to-r from-m3tBlue/80 via-[#0A1530] to-[#040714] sticky top-0 z-50 shadow">
+    <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+        <a href="../index.html" class="text-white text-2xl font-bold">M3T Data Management</a>
+
+        <nav class="flex items-center gap-6 font-medium">
+            <a href="../index.html" class="hover:text-m3tViolet">Home</a>
+            <a href="../about.html" class="hover:text-m3tViolet">About</a>
+
+            <!-- Services Dropdown -->
+            <div class="relative">
+                <button id="servicesBtn" class="flex items-center gap-2 hover:text-m3tViolet">
+                    Services <span id="arrow">▼</span>
+                </button>
+
+                <div id="servicesMenu"
+                     class="hidden absolute left-0 mt-2 w-64 bg-[#0b1530] border border-m3tViolet/20 rounded-lg p-2 shadow-xl z-50">
+
+                    
+                    <a href="services_quan.html" class="block px-3 py-2 hover:bg-m3tViolet/20 rounded">Quantitative Research</a>
+                    <a href="services_qual.html" class="block px-3 py-2 hover:bg-m3tViolet/20 rounded">Qualitative Research</a>
+                    <a href="services_mystshop.html" class="block px-3 py-2 hover:bg-m3tViolet/20 rounded">Mystery Shopping</a>
+                    <a href="services_dataprocess.html" class="block px-3 py-2 hover:bg-m3tViolet/20 rounded">Data Processing</a>
+                    <a href="services_quan.html" class="block px-3 py-2 hover:bg-m3tViolet/20 rounded">Retail / Dealer Studies</a>
+                    <a href="services_traffic_count.html" class="block px-3 py-2 hover:bg-m3tViolet/20 rounded">Traffic Count</a>
+                    <a href="services_marketmapping.html" class="block px-3 py-2 hover:bg-m3tViolet/20 rounded">Market Mapping</a>
+
+
+                </div>
+            </div>
+
+            <a href="contact.html" class="hover:text-m3tViolet">Contact</a>
+        </nav>
+    </div>
+</header>
+
+<!-- Dropdown Script -->
+<script>
+const btn = document.getElementById('servicesBtn');
+const menu = document.getElementById('servicesMenu');
+const arrow = document.getElementById('arrow');
+
+btn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    menu.classList.toggle('hidden');
+    arrow.textContent = menu.classList.contains('hidden') ? "▼" : "▲";
+});
+
+document.addEventListener('click', (e) => {
+    if (!menu.contains(e.target) && !btn.contains(e.target)) {
+        menu.classList.add('hidden');
+        arrow.textContent = "▼";
+    }
+});
+</script>
+
+<!-- HERO -->
+<section class="py-20 text-center">
+    <h1 class="text-5xl font-extrabold text-white">Qualitative Research</h1>
+    <p class="mt-4 max-w-3xl mx-auto lead">
+        In-depth understanding of motivations, emotions, and human behavior through immersive
+        techniques such as FGDs, IDIs, ethnography, and shop-alongs.
+    </p>
+</section>
+
+<!-- MAIN CONTENT -->
+<main class="max-w-6xl mx-auto px-6 pb-20 grid md:grid-cols-2 gap-12 items-start">
+
+    <!-- Left: Image -->
+    <div class="w-full">
+        <img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=1200&q=80"
+             alt="Qualitative Research" class="w-full h-full rounded-xl object-cover border border-m3tViolet/20 shadow-lg">
+    </div>
+
+    <!-- Right: Content -->
+    <div class="space-y-6">
+
+        <!-- Overview -->
+        <div class="bg-white/5 border border-m3tViolet/20 p-6 rounded-xl">
+            <h2 class="text-2xl font-bold text-m3tViolet">Overview</h2>
+            <p class="mt-3 text-gray-300">
+                Qualitative research uncovers **motivations, perceptions, and emotional drivers**
+                behind consumer decisions. Whether you need deep exploratory insights for concept
+                development, product experiences, or brand perception, M3T provides end-to-end
+                moderation, recruitment, analysis, and reporting.
+            </p>
+        </div>
+
+        <!-- Features + Workflow -->
+        <div class="grid md:grid-cols-2 gap-6">
+
+            <!-- Features -->
+            <div class="bg-white/5 border border-m3tBlue/20 p-5 rounded-xl">
+                <h3 class="font-semibold text-white mb-2">Key Features</h3>
+                <ul class="list-disc pl-5 space-y-2 text-gray-300">
+                    <li><strong>Focus Group Discussions</strong> (FGDs)</li>
+                    <li><strong>In-Depth Interviews</strong> (IDIs)</li>
+                    <li><strong>Ethnographic immersions</strong></li>
+                    <li><strong>Shop-alongs & home visits</strong></li>
+                    <li><strong>Projective techniques</strong> & stimulus testing</li>
+                </ul>
+            </div>
+
+            <!-- Workflow -->
+            <div class="bg-white/5 border border-m3tViolet/20 p-5 rounded-xl">
+                <h3 class="font-semibold text-white mb-2">Typical Workflow</h3>
+                <ol class="list-decimal pl-5 space-y-2 text-gray-300">
+                    <li>Objectives alignment</li>
+                    <li>Screening & recruitment</li>
+                    <li>Discussion guide development</li>
+                    <li>Moderation & fieldwork</li>
+                    <li>Transcription & thematic coding</li>
+                    <li>Insight development & reporting</li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- Deliverables -->
+        <div class="bg-white/5 border border-m3tBlue/20 p-6 rounded-xl">
+            <h3 class="font-semibold text-white mb-2">Deliverables</h3>
+            <ul class="list-disc pl-5 space-y-2 text-gray-300">
+                <li>Full transcripts</li>
+                <li>Thematic coding matrix</li>
+                <li>Insight maps & behavior drivers</li>
+                <li>Video & audio recordings (upon request)</li>
+                <li>Concept evaluation insights</li>
+                <li>Final presentation deck</li>
+            </ul>
+        </div>
+
+        <!-- CTA -->
+        <div class="text-center">
+            <a href="../contact.html"
+               class="inline-block px-8 py-3 rounded-xl bg-gradient-to-r from-m3tViolet to-m3tBlue text-white font-semibold shadow-lg">
+                Start a Qualitative Study
+            </a>
+        </div>
+
+    </div>
+</main>
+
+<footer class="bg-[#080C1C] text-gray-300 mt-24 border-t border-m3tViolet/20">
+  <div class="max-w-6xl mx-auto px-6 py-16 grid grid-cols-1 md:grid-cols-4 gap-10">
+
+    <!-- Company -->
+    <div>
+      <h3 class="text-white font-bold text-xl mb-4">M3T Data Management</h3>
+      <p class="text-gray-400 leading-relaxed">
+        Specialists in Market Research, Field Operations, Data Processing,
+        and Data-Driven Insights across the Philippines.
+      </p>
+    </div>
+
+    <!-- Quick Links -->
+    <div>
+      <h4 class="text-m3tViolet font-semibold text-lg mb-4">Quick Links</h4>
+      <ul class="space-y-2">
+        <li><a href="index.html" class="hover:text-white transition">Home</a></li>
+        <li><a href="about.html" class="hover:text-white transition">About Us</a></li>
+        <li><a href="services_main.html" class="hover:text-white transition">Services</a></li>
+        <li><a href="contact.html" class="hover:text-white transition">Contact</a></li>
+      </ul>
+    </div>
+
+    <!-- Services -->
+    <div>
+      <h4 class="text-m3tViolet font-semibold text-lg mb-4">Our Services</h4>
+      <ul class="space-y-2">
+        <li>Quantitative Research</li>
+        <li>Qualitative Research</li>
+        <li>Data Processing</li>
+        <li>Mystery Shopping</li>
+        <li>Retail / Dealer Audits</li>
+        <li>Traffic Count / Market Mapping</li>
+      </ul>
+    </div>
+
+    <!-- Contact -->
+    <div>
+      <h4 class="text-m3tViolet font-semibold text-lg mb-4">Contact Info</h4>
+      <p class="text-gray-400">📍 8 Ramos Bldg., F.B. Javier, Caniogan, Pasig City 1606</p>
+      <p class="mt-2">📞 0915-946-5969</p>
+      <p>📞 756-1840</p>
+      <p class="mt-2">✉ camano_daisy@yahoo.com</p>
+    </div>
+
+  </div>
+
+  <div class="border-t border-m3tViolet/10">
+    <p class="text-center text-gray-500 py-6 text-sm">
+      © 2025 ArcnoTech Solution Services. All rights reserved.
+    </p>
+  </div>
+</footer>
+</body>
+</html>

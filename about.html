@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>M3T — About Us</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<script>
+    tailwind.config = {
+        theme: {
+            extend: {
+                colors: {
+                    m3tViolet: '#A066CB',
+                    m3tBlue: '#1736B1',
+                    pageBg: '#0A1026'
+                }
+            }
+        }
+    }
+</script>
+
+<style>
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0);} }
+    .animate-fadeIn { animation: fadeIn .8s ease-out; }
+    .grid-bg { background-image: radial-gradient(rgba(255,255,255,0.04) 1px, transparent 1px); background-size: 24px 24px; }
+</style>
+</head>
+
+<!-- CHAT LAUNCHER BUTTON -->
+<button id="chatBtn" 
+    class="fixed bottom-6 right-6 bg-gradient-to-r from-m3tViolet to-m3tBlue text-white p-4 rounded-full shadow-xl hover:opacity-90 transition">
+    💬
+</button>
+
+<!-- CHAT PANEL -->
+<div id="chatPanel" class="fixed bottom-20 right-6 w-80 bg-[#0C122E] border border-m3tViolet/30 rounded-2xl shadow-2xl hidden flex flex-col">
+
+    <!-- HEADER -->
+    <div class="p-4 bg-gradient-to-r from-m3tBlue to-[#080C1C] rounded-t-2xl text-white font-semibold">
+        M3T AI Assistant
+    </div>
+
+    <!-- CHAT BODY -->
+    <div id="chatMessages" class="flex-1 p-4 space-y-3 overflow-y-auto text-gray-200">
+        <!-- Initial message -->
+        <div class="bg-white/5 border border-m3tViolet/20 p-3 rounded-xl">
+            Hello! 👋 How can I assist you about M3T Data Management today?
+        </div>
+
+        <!-- Quick FAQ buttons -->
+        <div class="space-y-2">
+            <button onclick="sendFAQ('services')" 
+                class="w-full text-left px-3 py-2 bg-white/5 rounded-lg hover:bg-white/10 border border-m3tBlue/20">
+                What services do you offer?
+            </button>
+            <button onclick="sendFAQ('coverage')" 
+                class="w-full text-left px-3 py-2 bg-white/5 rounded-lg hover:bg-white/10 border border-m3tBlue/20">
+                What areas do you cover?
+            </button>
+            <button onclick="sendFAQ('contact')" 
+                class="w-full text-left px-3 py-2 bg-white/5 rounded-lg hover:bg-white/10 border border-m3tBlue/20">
+                How can I contact M3T?
+            </button>
+        </div>
+    </div>
+
+    <!-- INPUT AREA -->
+    <div class="p-3 border-t border-m3tViolet/20 flex items-center space-x-2">
+        <input id="userInput" 
+            class="flex-1 bg-[#11172E] text-gray-100 px-3 py-2 rounded-lg border border-m3tViolet/30 outline-none"
+            placeholder="Type a message..." />
+        <button onclick="sendMessage()" 
+            class="px-4 py-2 bg-gradient-to-r from-m3tViolet to-m3tBlue text-white rounded-lg shadow hover:opacity-90">
+            ➤
+        </button>
+    </div>
+</div>
+
+<script>
+    // toggle panel
+    document.getElementById('chatBtn').onclick = () => {
+        document.getElementById('chatPanel').classList.toggle('hidden');
+    };
+
+    async function sendMessage() {
+        const msg = document.getElementById('userInput').value;
+        if (!msg.trim()) return;
+
+        addUserMessage(msg);
+        document.getElementById('userInput').value = "";
+
+        const response = await fetch('/api/faq', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ message: msg })
+        });
+
+        const data = await response.json();
+        addBotMessage(data.reply);
+    }
+
+    async function sendFAQ(type) {
+        const response = await fetch('/api/faq', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ faq: type })
+        });
+
+        const data = await response.json();
+        addBotMessage(data.reply);
+    }
+
+    function addUserMessage(text) {
+        document.getElementById('chatMessages').innerHTML += `
+            <div class="text-right">
+                <div class="inline-block bg-m3tViolet/30 px-3 py-2 rounded-xl">${text}</div>
+            </div>`;
+    }
+
+    function addBotMessage(text) {
+        document.getElementById('chatMessages').innerHTML += `
+            <div class="bg-white/5 border border-m3tBlue/20 p-3 rounded-xl">${text}</div>`;
+        
+        const container = document.getElementById('chatMessages');
+        container.scrollTop = container.scrollHeight;
+    }
+</script>
+
+
+<body class="bg-pageBg text-gray-200">
+
+<!-- NAVIGATION (same design as Contact Page) -->
+<header class="bg-gradient-to-r from-m3tBlue/80 via-[#0A1530] to-[#040714] sticky top-0 z-40">
+    <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+        <a href="index.html" class="text-white text-2xl font-bold">M3T Data Management</a>
+        <nav class="space-x-6 text-gray-200">
+            <a href="index.html" class="hover:text-m3tViolet transition">Home</a>
+            <a href="about.html" class="hover:text-m3tViolet transition">About</a>
+            <a href="services_main.html" class="hover:text-m3tViolet transition">Services</a>
+            <a href="contact.html" class="hover:text-m3tViolet transition">Contact</a>
+        </nav>
+    </div>
+</header>
+
+<!-- HERO SECTION -->
+<section class="py-28 grid-bg text-center animate-fadeIn">
+    <h1 class="text-5xl font-extrabold text-white mb-4 tracking-wide">About M3T Data Management</h1>
+    <p class="max-w-2xl mx-auto text-gray-300 text-lg">
+        A leading field operations and data management company providing nationwide research support for over a decade.
+    </p>
+</section>
+
+<!-- COMPANY OVERVIEW -->
+<section class="py-20 max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-12 animate-fadeIn">
+
+    <div>
+        <h2 class="text-3xl font-bold text-white mb-4">Who We Are</h2>
+        <p class="text-gray-300 leading-relaxed">
+            M3T Data Management Services is a professional field operations and research support company dedicated to delivering 
+            accurate, high-quality, and timely data for businesses, organizations, and researchers nationwide.
+            <br><br>
+            With strong operational presence in Luzon, Visayas, and Mindanao, M3T supports quantitative and qualitative research, 
+            field audits, market mapping, traffic count, and mystery shopping activities for top brands and agencies.
+        </p>
+    </div>
+
+    <div class="bg-white/5 border border-m3tViolet/20 rounded-2xl p-8 shadow-lg">
+        <h3 class="text-2xl font-bold text-m3tViolet mb-4">Mission & Vision</h3>
+        <p class="text-gray-300 mb-4"><span class="font-semibold">Mission:</span> To empower businesses with reliable data, professional fieldwork, and insights that support strategic decision-making.</p>
+        <p class="text-gray-300"><span class="font-semibold">Vision:</span> To be a trusted leader in research operations and data management services in the Philippines.</p>
+    </div>
+
+</section>
+
+<!-- CORE VALUES -->
+<section class="py-20 bg-[#0C122E] border-y border-m3tBlue/20">
+    <div class="max-w-6xl mx-auto px-6 text-center">
+        <h2 class="text-4xl font-bold text-white mb-12">Our Core Values</h2>
+
+        <div class="grid md:grid-cols-3 gap-8">
+
+            <div class="p-8 bg-white/5 border border-m3tViolet/20 rounded-xl shadow-md">
+                <h3 class="text-xl font-semibold text-m3tViolet mb-3">Integrity</h3>
+                <p class="text-gray-300">We uphold honesty, transparency, and ethical practices in all projects.</p>
+            </div>
+
+            <div class="p-8 bg-white/5 border border-m3tBlue/20 rounded-xl shadow-md">
+                <h3 class="text-xl font-semibold text-m3tViolet mb-3">Accuracy</h3>
+                <p class="text-gray-300">Our dedication to precise data ensures valid and trustworthy results.</p>
+            </div>
+
+            <div class="p-8 bg-white/5 border border-m3tViolet/20 rounded-xl shadow-md">
+                <h3 class="text-xl font-semibold text-m3tViolet mb-3">Professionalism</h3>
+                <p class="text-gray-300">We deliver consistent, high-quality support from planning to execution.</p>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- TIMELINE -->
+<section class="py-20 max-w-6xl mx-auto px-6">
+    <h2 class="text-4xl font-bold text-white text-center mb-12">Our Journey</h2>
+
+    <div class="relative border-l border-m3tViolet/40 ml-6 space-y-12">
+
+        <div class="ml-6">
+            <div class="w-4 h-4 bg-m3tViolet rounded-full absolute -left-[9px]"></div>
+            <h3 class="text-xl font-semibold text-white">2014 — Company Established</h3>
+            <p class="text-gray-300 mt-2">M3T began its operations delivering specialized fieldwork services for NCR and nearby cities.</p>
+        </div>
+
+        <div class="ml-6">
+            <div class="w-4 h-4 bg-m3tBlue rounded-full absolute -left-[9px]"></div>
+            <h3 class="text-xl font-semibold text-white">2016 — Expansion to Visayas & Mindanao</h3>
+            <p class="text-gray-300 mt-2">Growing demand expanded operations to key cities nationwide.</p>
+        </div>
+
+        <div class="ml-6">
+            <div class="w-4 h-4 bg-m3tViolet rounded-full absolute -left-[9px]"></div>
+            <h3 class="text-xl font-semibold text-white">2020 — Digital Transformation</h3>
+            <p class="text-gray-300 mt-2">Shifted to enhanced digital tools for faster reporting and data handling.</p>
+        </div>
+
+        <div class="ml-6">
+            <div class="w-4 h-4 bg-m3tBlue rounded-full absolute -left-[9px]"></div>
+            <h3 class="text-xl font-semibold text-white">2024 — Nationwide Field Network</h3>
+            <p class="text-gray-300 mt-2">Strengthened workforce to support complex research nationwide.</p>
+        </div>
+
+    </div>
+</section>
+
+<!-- TEAM SECTION -->
+<!-- LEADERSHIP SECTION -->
+<section class="py-20 bg-[#0C122E] border-y border-m3tBlue/20">
+    <div class="max-w-6xl mx-auto px-6">
+
+        <h2 class="text-4xl font-bold text-white text-center mb-12">Leadership</h2>
+
+        <!-- GRID -->
+        <div class="grid md:grid-cols-2 gap-10">
+
+            <!-- FOUNDER CARD WITH PHOTO -->
+            <div class="bg-white/5 border border-m3tViolet/20 p-8 rounded-2xl shadow-lg flex flex-col md:flex-row items-start gap-6">
+
+                <!-- IMAGE PLACEHOLDER -->
+                <div class="w-full md:w-1/3">
+                    <div class="w-full h-48 md:h-56 bg-[#1A1F36] border border-m3tViolet/30 rounded-xl flex items-center justify-center">
+                        <span class="text-gray-400">Photo</span>
+                    </div>
+                </div>
+
+                <!-- TEXT CONTENT -->
+                <div class="w-full md:w-2/3">
+                    <h3 class="text-2xl font-bold text-m3tViolet mb-1">
+                        Maricel “Daisy” Cama&ntilde;o
+                    </h3>
+                    <p class="text-gray-300 mb-4">Founder & Operations Manager</p>
+                    <p class="text-gray-400 leading-relaxed">
+                        With over a decade of experience in market research operations, 
+                        Miss Cama&ntilde;o leads M3T with strong managerial expertise, 
+                        ensuring high quality and ethical standards across all projects.
+                    </p>
+                </div>
+
+            </div>
+
+            <!-- OPERATIONS TEAM CARD (OPTIONAL PHOTO TOO) -->
+            <div class="bg-white/5 border border-m3tBlue/20 p-8 rounded-2xl shadow-lg flex flex-col md:flex-row items-start gap-6">
+
+                <!-- IMAGE PLACEHOLDER -->
+                <div class="w-full md:w-1/3">
+                    <div class="w-full h-48 md:h-56 bg-[#1A1F36] border border-m3tBlue/30 rounded-xl flex items-center justify-center">
+                        <span class="text-gray-400">Team Photo</span>
+                    </div>
+                </div>
+
+                <!-- TEXT CONTENT -->
+                <div class="w-full md:w-2/3">
+                    <h3 class="text-2xl font-bold text-m3tViolet mb-1">
+                        Field Supervisors & Nationwide Team
+                    </h3>
+                    <p class="text-gray-300 mb-4">Operations & Field Management</p>
+                    <p class="text-gray-400 leading-relaxed">
+                        M3T is supported by a strong nationwide network of field supervisors, 
+                        interviewers, validators, encoders, and logistics personnel — ensuring 
+                        reliable execution across Luzon, Visayas, and Mindanao.
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+<!-- CTA BANNER -->
+<section class="py-20 text-center">
+    <h2 class="text-4xl font-bold text-white mb-4">Ready to Work With Us?</h2>
+    <p class="text-gray-300 mb-6">Let M3T support your next research project with accuracy and nationwide reach.</p>
+
+    <a href="contact.html"
+       class="inline-block px-10 py-4 bg-gradient-to-r from-m3tViolet to-m3tBlue text-white
+              rounded-xl shadow-lg hover:opacity-90 transition">
+       Contact Us Today
+    </a>
+</section>
+
+<!-- FOOTER -->
+<footer class="bg-[#080C1C] text-gray-300 mt-24 border-t border-m3tViolet/20">
+    <div class="max-w-6xl mx-auto px-6 py-16 grid md:grid-cols-4 gap-10">
+
+        <div>
+            <h3 class="text-white font-bold text-xl mb-4">M3T Data Management</h3>
+            <p class="text-gray-400">
+                Delivering professional field operations and research support nationwide.
+            </p>
+        </div>
+
+        <div>
+            <h4 class="text-m3tViolet font-semibold text-lg mb-4">Quick Links</h4>
+            <ul class="space-y-2">
+                <li><a href="index.html" class="hover:text-m3tViolet transition">Home</a></li>
+                <li><a href="about.html" class="hover:text-m3tViolet transition">About</a></li>
+                <li><a href="services_main.html" class="hover:text-m3tViolet transition">Services</a></li>
+                <li><a href="contact.html" class="hover:text-m3tViolet transition">Contact</a></li>
+        </div>
+
+        <div>
+            <h4 class="text-m3tViolet font-semibold text-lg mb-4">Services</h4>
+            <ul class="space-y-2">
+                <li><a href="services_quan.html" class="hover:text-m3tViolet transition">Quantitative Research</a></li>
+                <li><a href="services_qual.html" class="hover:text-m3tViolet transition">Qualitative Research</a></li>
+                <li><a href="services_mystshop.html" class="hover:text-m3tViolet transition">Mystery Shopping</a></li>
+                <li><a href="services_dataprocess" class="hover:text-m3tViolet transition">Data Process</a></li>
+                <li><a href="services_retailstudies" class="hover:text-m3tViolet transition">Retail Studies</a></li>
+                <li><a href="services_traffic_count" class="hover:text-m3tViolet transition">Traffic Account</a></li>
+                <li><a href="services_marketmapping" class="hover:text-m3tViolet transition">Market Mapping </a></li>
+
+            </ul>
+        </div>
+
+        <div>
+            <h4 class="text-m3tViolet font-semibold text-lg mb-4">Contact Info</h4>
+            <p>📍 Pasig City, Philippines</p>
+            <p>📞 0915-946-5969</p>
+            <p>✉ camano_daisy@yahoo.com</p>
+        </div>
+
+    </div>
+
+    <div class="border-t border-m3tViolet/10">
+        <p class="text-center text-gray-500 py-6 text-sm">
+            © 2025 ArcnoTech Solutions. All Rights Reserved
+        </p>
+    </div>
+</footer>
+
+</body>
+</html>
