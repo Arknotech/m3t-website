@@ -87,163 +87,165 @@
   </div>
 
   <script>
-    // ⚙️ CONFIGURATION - Your Vercel API URL
-    const API_URL = 'https://m3t-website-u3ah-git-main-m3t-websites-projects.vercel.app';
+    <script>
+const API_URL = 'https://m3t-website-u3ah.vercel.app';
 
-    // Chat widget toggle
-    document.getElementById('chatBtn').onclick = () => {
-        const panel = document.getElementById('chatPanel');
-        panel.classList.toggle('hidden');
-        panel.classList.toggle('flex');
-    };
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById("contactForm");
+    
+    form.addEventListener("submit", async (e) => {
+        e.preventDefault();
 
-    // Send custom message
-    async function sendMessage() {
-        const input = document.getElementById('userInput');
-        const msg = input.value.trim();
-        if (!msg) return;
+        const formData = new FormData(e.target);
+        const file = formData.get("file");
 
-        addUserMessage(msg);
-        input.value = "";
+        let fileContent = null;
+        let fileName = null;
 
-        try {
-            const response = await fetch(`${API_URL}/api/faq`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ message: msg })
-            });
-
-            if (!response.ok) throw new Error('Network error');
-            
-            const data = await response.json();
-            addBotMessage(data.reply || 'Sorry, I could not process that.');
-        } catch (error) {
-            console.error('Chat error:', error);
-            addBotMessage('Sorry, I am having trouble connecting. Please try again.');
-        }
-    }
-
-    // Send FAQ
-    async function sendFAQ(type) {
-        try {
-            const response = await fetch(`${API_URL}/api/faq`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ faq: type })
-            });
-
-            if (!response.ok) throw new Error('Network error');
-
-            const data = await response.json();
-            addBotMessage(data.reply || 'Sorry, I could not process that.');
-        } catch (error) {
-            console.error('FAQ error:', error);
-            addBotMessage('Sorry, I am having trouble connecting. Please try again.');
-        }
-    }
-
-    function addUserMessage(text) {
-        document.getElementById('chatMessages').innerHTML += `
-            <div class="text-right">
-                <div class="inline-block bg-m3tViolet/30 px-3 py-2 rounded-xl">${escapeHtml(text)}</div>
-            </div>`;
-        scrollChat();
-    }
-
-    function addBotMessage(text) {
-        document.getElementById('chatMessages').innerHTML += `
-            <div class="bg-white/5 border border-m3tBlue/20 p-3 rounded-xl">${escapeHtml(text)}</div>`;
-        scrollChat();
-    }
-
-    function scrollChat() {
-        const container = document.getElementById('chatMessages');
-        container.scrollTop = container.scrollHeight;
-    }
-
-    function escapeHtml(text) {
-        const div = document.createElement('div');
-        div.textContent = text;
-        return div.innerHTML;
-    }
-
-    // Contact Form Submission
-    document.addEventListener('DOMContentLoaded', function() {
-        const form = document.getElementById("contactForm");
-        
-        form.addEventListener("submit", async (e) => {
-            e.preventDefault();
-
-            const formData = new FormData(e.target);
-            const file = formData.get("file");
-
-            let fileContent = null;
-            let fileName = null;
-
-            if (file && file.size > 0) {
-                try {
-                    const base64 = await toBase64(file);
-                    fileContent = base64.split(",")[1];
-                    fileName = file.name;
-                } catch (error) {
-                    console.error('File upload error:', error);
-                    alert('Error uploading file. Please try again.');
-                    return;
-                }
-            }
-
-            const data = {
-                full_name: formData.get("full_name"),
-                email: formData.get("email"),
-                phone: formData.get("phone"),
-                service_needed: formData.get("service_needed"),
-                project_details: formData.get("project_details"),
-                consent: formData.get("consent") === "on",
-                fileContent,
-                fileName
-            };
-
-            // Validation
-            if (!data.full_name || !data.email || !data.phone || !data.service_needed || !data.project_details) {
-                alert('Please fill in all required fields.');
-                return;
-            }
-
-            if (!data.consent) {
-                alert('Please agree to data processing to continue.');
-                return;
-            }
-
+        if (file && file.size > 0) {
             try {
-                const response = await fetch(`${API_URL}/api/contact`, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(data)
-                });
-
-                const result = await response.json();
-
-                if (result.success) {
-                    alert("✅ Your message has been submitted successfully! We'll get back to you soon.");
-                    e.target.reset();
-                } else {
-                    alert("❌ Error: " + (result.error?.message || "Submission failed. Please try again."));
-                }
+                const base64 = await toBase64(file);
+                fileContent = base64.split(",")[1];
+                fileName = file.name;
             } catch (error) {
-                console.error("Submission error:", error);
-                alert("❌ Network error. Please check your internet connection and try again.");
+                console.error('File error:', error);
+                alert('Error uploading file.');
+                return;
             }
-        });
-    });
+        }
 
-    function toBase64(file) {
-        return new Promise((resolve, reject) => {
-            const reader = new FileReader();
-            reader.onload = () => resolve(reader.result);
-            reader.onerror = reject;
-            reader.readAsDataURL(file);
-        });
-    }
+        const data = {
+            full_name: formData.get("full_name"),
+            email: formData.get("email"),
+            phone: formData.get("phone"),
+            service_needed: formData.get("service_needed"),
+            project_details: formData.get("project_details"),
+            consent: formData.get("consent") === "on",
+            fileContent,
+            fileName
+        };
+
+        if (!data.full_name || !data.email || !data.phone || !data.service_needed || !data.project_details) {
+            alert('Please fill all required fields.');
+            return;
+        }
+
+        if (!data.consent) {
+            alert('Please agree to data processing.');
+            return;
+        }
+
+        try {
+            const response = await fetch(`${API_URL}/api/contact`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data)
+            });
+
+            const result = await response.json();
+
+            if (result.success) {
+                alert("✅ Message submitted successfully!");
+                e.target.reset();
+            } else {
+                alert("❌ Error: " + (result.error?.message || "Failed"));
+            }
+        } catch (error) {
+            console.error("Error:", error);
+            alert("❌ Network error. Check console (F12).");
+        }
+    });
+});
+
+function toBase64(file) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+    });
+}
+</script><script>
+const API_URL = 'https://m3t-website-u3ah.vercel.app';
+
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById("contactForm");
+    
+    form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const formData = new FormData(e.target);
+        const file = formData.get("file");
+
+        let fileContent = null;
+        let fileName = null;
+
+        if (file && file.size > 0) {
+            try {
+                const base64 = await toBase64(file);
+                fileContent = base64.split(",")[1];
+                fileName = file.name;
+            } catch (error) {
+                console.error('File error:', error);
+                alert('Error uploading file.');
+                return;
+            }
+        }
+
+        const data = {
+            full_name: formData.get("full_name"),
+            email: formData.get("email"),
+            phone: formData.get("phone"),
+            service_needed: formData.get("service_needed"),
+            project_details: formData.get("project_details"),
+            consent: formData.get("consent") === "on",
+            fileContent,
+            fileName
+        };
+
+        if (!data.full_name || !data.email || !data.phone || !data.service_needed || !data.project_details) {
+            alert('Please fill all required fields.');
+            return;
+        }
+
+        if (!data.consent) {
+            alert('Please agree to data processing.');
+            return;
+        }
+
+        try {
+            const response = await fetch(`${API_URL}/api/contact`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data)
+            });
+
+            const result = await response.json();
+
+            if (result.success) {
+                alert("✅ Message submitted successfully!");
+                e.target.reset();
+            } else {
+                alert("❌ Error: " + (result.error?.message || "Failed"));
+            }
+        } catch (error) {
+            console.error("Error:", error);
+            alert("❌ Network error. Check console (F12).");
+        }
+    });
+});
+
+function toBase64(file) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+    });
+}
+</script>  
+  
+    
   </script>
 
   <!-- Header -->
@@ -432,3 +434,4 @@
 
 </body>
 </html>
+
