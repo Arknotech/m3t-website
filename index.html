@@ -68,54 +68,78 @@
 </div>
 
 <script>
-    // toggle panel
-    document.getElementById('chatBtn').onclick = () => {
-        document.getElementById('chatPanel').classList.toggle('hidden');
-    };
+    
+const API_URL = 'https://m3t-website-u3ah.vercel.app';
 
-    async function sendMessage() {
-        const msg = document.getElementById('userInput').value;
-        if (!msg.trim()) return;
+document.getElementById('chatBtn').onclick = () => {
+    const panel = document.getElementById('chatPanel');
+    panel.classList.toggle('hidden');
+    panel.classList.toggle('flex');
+};
 
-        addUserMessage(msg);
-        document.getElementById('userInput').value = "";
+async function sendMessage() {
+    const input = document.getElementById('userInput');
+    const msg = input.value.trim();
+    if (!msg) return;
 
-        const response = await fetch('/api/faq', {
+    addUserMessage(msg);
+    input.value = "";
+
+    try {
+        const response = await fetch(`${API_URL}/api/faq`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ message: msg })
         });
 
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        
         const data = await response.json();
-        addBotMessage(data.reply);
+        addBotMessage(data.reply || 'Sorry, error occurred.');
+    } catch (error) {
+        console.error('Chat error:', error);
+        addBotMessage('Connection error. Try again.');
     }
+}
 
-    async function sendFAQ(type) {
-        const response = await fetch('/api/faq', {
+async function sendFAQ(type) {
+    try {
+        const response = await fetch(`${API_URL}/api/faq`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ faq: type })
         });
 
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
         const data = await response.json();
-        addBotMessage(data.reply);
+        addBotMessage(data.reply || 'Sorry, error occurred.');
+    } catch (error) {
+        console.error('FAQ error:', error);
+        addBotMessage('Connection error. Try again.');
     }
+}
 
-    function addUserMessage(text) {
-        document.getElementById('chatMessages').innerHTML += `
-            <div class="text-right">
-                <div class="inline-block bg-m3tViolet/30 px-3 py-2 rounded-xl">${text}</div>
-            </div>`;
-    }
+function addUserMessage(text) {
+    document.getElementById('chatMessages').innerHTML += `
+        <div class="text-right">
+            <div class="inline-block bg-m3tViolet/30 px-3 py-2 rounded-xl">${text}</div>
+        </div>`;
+    scrollChat();
+}
 
-    function addBotMessage(text) {
-        document.getElementById('chatMessages').innerHTML += `
-            <div class="bg-white/5 border border-m3tBlue/20 p-3 rounded-xl">${text}</div>`;
-        
-        const container = document.getElementById('chatMessages');
-        container.scrollTop = container.scrollHeight;
-    }
+function addBotMessage(text) {
+    document.getElementById('chatMessages').innerHTML += `
+        <div class="bg-white/5 border border-m3tBlue/20 p-3 rounded-xl">${text}</div>`;
+    scrollChat();
+}
+
+function scrollChat() {
+    const container = document.getElementById('chatMessages');
+    container.scrollTop = container.scrollHeight;
+}
 </script>
+
 
 
 <body class="bg-[#0A1026] text-gray-100 font-sans">
@@ -290,6 +314,7 @@
   </script>
 </body>
 </html>
+
 
 
 
