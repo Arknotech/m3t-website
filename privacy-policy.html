@@ -1,153 +1,308 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Privacy Policy | M3T Data Management Services</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <!-- Tailwind CDN -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy Policy - M3T Data Management Services</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
       theme: {
         extend: {
           colors: {
-            violetBrand: '#A066CB',
-            deepBlue: '#1736B1'
+            m3tViolet: '#A066CB',
+            m3tBlue: '#1736B1',
           }
         }
       }
     }
   </script>
+  <style>
+    :root {
+      --violet: #A066CB;
+      --deep-blue: #1736B1;
+    }
+    .bg-gradient-custom {
+      background: linear-gradient(135deg, var(--deep-blue), #0A1026);
+    }
+  </style>
 </head>
 
-<body class="bg-black text-white font-sans">
+<body class="bg-[#0A1026] text-gray-100 font-sans">
 
-  <!-- ===== NAVIGATION (same as other pages) ===== -->
-  <header class="bg-black border-b border-white/10">
-    <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-      
-      <!-- Logo / Brand -->
-      <div class="text-lg font-semibold tracking-wide">
-        M3T <span class="text-violetBrand">Data Management</span>
-      </div>
-
-      <!-- Nav Links -->
-      <nav class="flex gap-8 text-sm text-white/70">
-        <a href="index.html" class="hover:text-violetBrand">Home</a>
-        <a href="about.html" class="hover:text-violetBrand">About</a>
-        <a href="services.html" class="hover:text-violetBrand">Services</a>
-        <a href="contact.html" class="hover:text-violetBrand">Contact</a>
+  <!-- Header -->
+  <header class="bg-gradient-custom shadow-md sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto flex justify-between items-center p-4">
+      <h1 class="text-2xl font-bold text-white">M3T Data Management</h1>
+      <nav class="space-x-6 text-gray-200">
+        <a href="index.html" class="hover:text-[var(--violet)] transition">Home</a>
+        <a href="about.html" class="hover:text-[var(--violet)] transition">About</a>
+        <a href="services_main.html" class="hover:text-[var(--violet)] transition">Services</a>
+        <a href="contact_simple.html" class="hover:text-[var(--violet)] transition">Contact</a>
       </nav>
-
     </div>
   </header>
 
-  <!-- ===== PAGE HEADER (same pattern as About/Services hero) ===== -->
-  <section class="bg-gradient-to-r from-deepBlue/40 to-black">
-    <div class="max-w-7xl mx-auto px-6 py-20">
-      <h1 class="text-4xl font-bold mb-4">Privacy Policy</h1>
-      <p class="text-white/70 max-w-2xl">
-        Our commitment to protecting personal data in compliance with the
-        Philippine Data Privacy Act of 2012 and international privacy principles.
+  <!-- Privacy Policy Content -->
+  <section class="max-w-5xl mx-auto py-16 px-6">
+    <div class="bg-[#1736B1]/10 border border-[#1736B1]/30 rounded-2xl p-8 md:p-12">
+      
+      <h1 class="text-4xl md:text-5xl font-bold text-[var(--violet)] mb-6">Privacy Policy</h1>
+      
+      <p class="text-gray-300 mb-8 text-sm">
+        <strong>Effective Date:</strong> January 22, 2026<br>
+        <strong>Last Updated:</strong> January 22, 2026
       </p>
+
+      <div class="space-y-8 text-gray-200">
+
+        <!-- Introduction -->
+        <div>
+          <h2 class="text-2xl font-semibold text-[var(--violet)] mb-4">1. Introduction</h2>
+          <p class="leading-relaxed">
+            M3T Data Management Services ("M3T," "we," "us," or "our") is committed to protecting the privacy and security of your personal information. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website, use our services, or engage with us in any capacity.
+          </p>
+          <p class="leading-relaxed mt-3">
+            This policy complies with the Data Privacy Act of 2012 (Republic Act No. 10173) of the Philippines, its Implementing Rules and Regulations (IRR), National Privacy Commission (NPC) regulations, and international standards including the General Data Protection Regulation (GDPR) where applicable.
+          </p>
+        </div>
+
+        <!-- Information We Collect -->
+        <div>
+          <h2 class="text-2xl font-semibold text-[var(--violet)] mb-4">2. Information We Collect</h2>
+          
+          <h3 class="text-xl font-semibold text-white mt-4 mb-2">2.1 Personal Information</h3>
+          <p class="leading-relaxed mb-2">We may collect the following types of personal information:</p>
+          <ul class="list-disc list-inside space-y-1 ml-4 text-gray-300">
+            <li>Contact information (name, email address, phone number, business address)</li>
+            <li>Company/organization details</li>
+            <li>Professional information relevant to our services</li>
+            <li>Communication preferences</li>
+            <li>Survey and research data (when you participate in our studies)</li>
+          </ul>
+
+          <h3 class="text-xl font-semibold text-white mt-4 mb-2">2.2 Automatically Collected Information</h3>
+          <p class="leading-relaxed mb-2">When you visit our website, we may automatically collect:</p>
+          <ul class="list-disc list-inside space-y-1 ml-4 text-gray-300">
+            <li>IP address and device information</li>
+            <li>Browser type and version</li>
+            <li>Pages visited and time spent on our website</li>
+            <li>Referring website addresses</li>
+            <li>Operating system information</li>
+          </ul>
+
+          <h3 class="text-xl font-semibold text-white mt-4 mb-2">2.3 Research Participant Data</h3>
+          <p class="leading-relaxed">
+            For individuals participating in our market research studies, we collect data specific to the research objectives, which may include demographic information, consumer preferences, behavioral data, and feedback. Participant data is collected with explicit consent and handled according to strict confidentiality protocols.
+          </p>
+        </div>
+
+        <!-- How We Use Your Information -->
+        <div>
+          <h2 class="text-2xl font-semibold text-[var(--violet)] mb-4">3. How We Use Your Information</h2>
+          <p class="leading-relaxed mb-2">We process your personal information for the following lawful purposes:</p>
+          <ul class="list-disc list-inside space-y-2 ml-4 text-gray-300">
+            <li><strong>Service Delivery:</strong> To provide market research, data management, and consulting services</li>
+            <li><strong>Communication:</strong> To respond to inquiries, provide updates, and maintain client relationships</li>
+            <li><strong>Research & Analysis:</strong> To conduct quantitative and qualitative studies, retail audits, and market analysis</li>
+            <li><strong>Quality Improvement:</strong> To enhance our services and website functionality</li>
+            <li><strong>Legal Compliance:</strong> To comply with legal obligations and enforce our terms</li>
+            <li><strong>Marketing:</strong> To send promotional materials (only with your consent, and you may opt-out anytime)</li>
+          </ul>
+        </div>
+
+        <!-- Legal Basis for Processing -->
+        <div>
+          <h2 class="text-2xl font-semibold text-[var(--violet)] mb-4">4. Legal Basis for Processing (Philippine DPA & GDPR)</h2>
+          <p class="leading-relaxed mb-2">We process personal data based on:</p>
+          <ul class="list-disc list-inside space-y-1 ml-4 text-gray-300">
+            <li><strong>Consent:</strong> You have given explicit consent for specific processing activities</li>
+            <li><strong>Contract:</strong> Processing is necessary to fulfill our contractual obligations</li>
+            <li><strong>Legal Obligation:</strong> Required by Philippine or international law</li>
+            <li><strong>Legitimate Interest:</strong> For business purposes that do not override your rights</li>
+          </ul>
+        </div>
+
+        <!-- Data Sharing and Disclosure -->
+        <div>
+          <h2 class="text-2xl font-semibold text-[var(--violet)] mb-4">5. Data Sharing and Disclosure</h2>
+          <p class="leading-relaxed mb-3">
+            M3T does not sell, rent, or trade your personal information. We may share your data only in the following circumstances:
+          </p>
+          
+          <h3 class="text-xl font-semibold text-white mt-4 mb-2">5.1 Service Providers</h3>
+          <p class="leading-relaxed">
+            We may engage trusted third-party service providers (e.g., data processors, IT support, field researchers) who assist in our operations. These parties are contractually bound to protect your data and use it only for specified purposes.
+          </p>
+
+          <h3 class="text-xl font-semibold text-white mt-4 mb-2">5.2 Clients</h3>
+          <p class="leading-relaxed">
+            Research data may be shared with clients in aggregated, anonymized form unless you have provided explicit consent for identifiable data sharing.
+          </p>
+
+          <h3 class="text-xl font-semibold text-white mt-4 mb-2">5.3 Legal Requirements</h3>
+          <p class="leading-relaxed">
+            We may disclose information when required by law, court order, or government regulation, or to protect our rights, safety, or property.
+          </p>
+
+          <h3 class="text-xl font-semibold text-white mt-4 mb-2">5.4 Cross-Border Data Transfer</h3>
+          <p class="leading-relaxed">
+            If data is transferred outside the Philippines, we ensure adequate safeguards are in place as required by the NPC and GDPR, including Standard Contractual Clauses or other approved mechanisms.
+          </p>
+        </div>
+
+        <!-- Data Security -->
+        <div>
+          <h2 class="text-2xl font-semibold text-[var(--violet)] mb-4">6. Data Security</h2>
+          <p class="leading-relaxed">
+            We implement appropriate technical and organizational security measures to protect your personal information from unauthorized access, disclosure, alteration, or destruction. These measures include encryption, access controls, secure servers, regular security assessments, and employee training on data protection. However, no method of transmission over the internet is 100% secure, and we cannot guarantee absolute security.
+          </p>
+        </div>
+
+        <!-- Data Retention -->
+        <div>
+          <h2 class="text-2xl font-semibold text-[var(--violet)] mb-4">7. Data Retention</h2>
+          <p class="leading-relaxed">
+            We retain personal information only as long as necessary to fulfill the purposes outlined in this policy, comply with legal obligations, resolve disputes, and enforce agreements. Research data is typically retained for the duration of the project plus any legally required retention period. Upon expiration, data is securely deleted or anonymized.
+          </p>
+        </div>
+
+        <!-- Your Rights -->
+        <div>
+          <h2 class="text-2xl font-semibold text-[var(--violet)] mb-4">8. Your Data Privacy Rights</h2>
+          <p class="leading-relaxed mb-3">
+            Under the Philippine Data Privacy Act and GDPR (where applicable), you have the following rights:
+          </p>
+          <ul class="list-disc list-inside space-y-2 ml-4 text-gray-300">
+            <li><strong>Right to Access:</strong> Request a copy of the personal data we hold about you</li>
+            <li><strong>Right to Rectification:</strong> Request correction of inaccurate or incomplete data</li>
+            <li><strong>Right to Erasure:</strong> Request deletion of your personal data (subject to legal obligations)</li>
+            <li><strong>Right to Object:</strong> Object to processing based on legitimate interests or for direct marketing</li>
+            <li><strong>Right to Data Portability:</strong> Receive your data in a structured, machine-readable format</li>
+            <li><strong>Right to Withdraw Consent:</strong> Withdraw consent at any time (without affecting prior processing)</li>
+            <li><strong>Right to Lodge a Complaint:</strong> File a complaint with the National Privacy Commission (NPC) or relevant supervisory authority</li>
+          </ul>
+          <p class="leading-relaxed mt-4">
+            To exercise these rights, please contact us at <a href="mailto:camano_daisy@yahoo.com" class="text-[var(--violet)] hover:underline">camano_daisy@yahoo.com</a>. We will respond within fifteen (15) days as required by the NPC.
+          </p>
+        </div>
+
+        <!-- Cookies and Tracking -->
+        <div>
+          <h2 class="text-2xl font-semibold text-[var(--violet)] mb-4">9. Cookies and Tracking Technologies</h2>
+          <p class="leading-relaxed">
+            Our website may use cookies and similar tracking technologies to enhance user experience, analyze website traffic, and understand visitor behavior. You can control cookie preferences through your browser settings. Disabling cookies may affect certain website functionalities.
+          </p>
+        </div>
+
+        <!-- Children's Privacy -->
+        <div>
+          <h2 class="text-2xl font-semibold text-[var(--violet)] mb-4">10. Children's Privacy</h2>
+          <p class="leading-relaxed">
+            Our services are not directed to individuals under the age of 18. We do not knowingly collect personal information from minors without parental consent. If we become aware of such collection, we will take steps to delete the information promptly.
+          </p>
+        </div>
+
+        <!-- Third-Party Links -->
+        <div>
+          <h2 class="text-2xl font-semibold text-[var(--violet)] mb-4">11. Third-Party Links</h2>
+          <p class="leading-relaxed">
+            Our website may contain links to third-party websites. We are not responsible for the privacy practices of these external sites. We encourage you to review their privacy policies before providing any personal information.
+          </p>
+        </div>
+
+        <!-- Changes to This Policy -->
+        <div>
+          <h2 class="text-2xl font-semibold text-[var(--violet)] mb-4">12. Changes to This Privacy Policy</h2>
+          <p class="leading-relaxed">
+            We may update this Privacy Policy periodically to reflect changes in our practices, legal requirements, or business operations. The updated policy will be posted on this page with a revised "Last Updated" date. We encourage you to review this policy regularly. Continued use of our services after changes constitutes acceptance of the updated policy.
+          </p>
+        </div>
+
+        <!-- Contact Information -->
+        <div>
+          <h2 class="text-2xl font-semibold text-[var(--violet)] mb-4">13. Contact Us & Data Protection Officer</h2>
+          <p class="leading-relaxed mb-3">
+            If you have questions, concerns, or requests regarding this Privacy Policy or our data practices, please contact:
+          </p>
+          <div class="bg-[#1736B1]/20 border border-[#1736B1]/40 p-6 rounded-xl">
+            <p class="font-semibold text-white mb-2">M3T Data Management Services</p>
+            <p>📍 Pasig City, Philippines</p>
+            <p>📞 0915-946-5969</p>
+            <p>✉ <a href="mailto:camano_daisy@yahoo.com" class="text-[var(--violet)] hover:underline">camano_daisy@yahoo.com</a></p>
+            <p class="mt-4 text-sm text-gray-400">
+              <strong>National Privacy Commission (NPC):</strong><br>
+              5th Floor, Philippine Trade Training Center Building,<br>
+              Trade and Financial Tower, Roxas Boulevard corner EDSA Extension,<br>
+              Pasay City, Metro Manila 1300<br>
+              Email: info@privacy.gov.ph | Website: privacy.gov.ph
+            </p>
+          </div>
+        </div>
+
+        <!-- Consent -->
+        <div class="bg-[var(--violet)]/10 border border-[var(--violet)]/30 p-6 rounded-xl mt-8">
+          <h2 class="text-2xl font-semibold text-[var(--violet)] mb-4">14. Consent</h2>
+          <p class="leading-relaxed">
+            By using our website and services, you acknowledge that you have read, understood, and agree to the terms of this Privacy Policy. If you do not agree, please discontinue use of our services.
+          </p>
+        </div>
+
+      </div>
     </div>
   </section>
 
-  <!-- ===== CONTENT SECTION ===== -->
-  <main class="max-w-4xl mx-auto px-6 py-16 space-y-12">
+  <!-- FOOTER -->
+  <footer class="bg-[#080C1C] text-gray-300 mt-24 border-t border-m3tViolet/20">
+    <div class="max-w-6xl mx-auto px-6 py-16 grid md:grid-cols-4 gap-10">
 
-    <!-- Each section follows same typography rhythm -->
-    <section>
-      <h2 class="text-2xl font-semibold text-violetBrand mb-3">1. Introduction</h2>
-      <p class="text-white/80 leading-relaxed">
-        M3T Data Management Services (“M3T”, “we”, “us”, or “our”) is committed to
-        safeguarding personal data in accordance with the Data Privacy Act of
-        2012 (Republic Act No. 10173), its Implementing Rules and Regulations,
-        and applicable international data protection standards.
-      </p>
-    </section>
+        <div>
+            <h3 class="text-white font-bold text-xl mb-4">M3T Data Management</h3>
+            <p class="text-gray-400">
+                Delivering professional field operations and research support nationwide.
+            </p>
+        </div>
 
-    <section>
-      <h2 class="text-2xl font-semibold text-violetBrand mb-3">2. Scope</h2>
-      <ul class="list-disc pl-6 text-white/80 space-y-1">
-        <li>Website visitors</li>
-        <li>Clients and prospective clients</li>
-        <li>Research respondents and participants</li>
-        <li>Partners and service providers</li>
-      </ul>
-    </section>
+        <div>
+            <h4 class="text-m3tViolet font-semibold text-lg mb-4">Quick Links</h4>
+            <ul class="space-y-2">
+                <li><a href="index.html" class="hover:text-[var(--violet)] transition">Home</a></li>
+                <li><a href="about.html" class="hover:text-[var(--violet)] transition">About</a></li>
+                <li><a href="services_main.html" class="hover:text-[var(--violet)] transition">Services</a></li>
+                <li><a href="contact_simple.html" class="hover:text-[var(--violet)] transition">Contact</a></li>
+            </ul>
+        </div>
 
-    <section>
-      <h2 class="text-2xl font-semibold text-violetBrand mb-3">3. Personal Data Collected</h2>
-      <ul class="list-disc pl-6 text-white/80 space-y-1">
-        <li>Full name, email address, phone number</li>
-        <li>Company or organization</li>
-        <li>Service requested and project details</li>
-        <li>Optional file attachments</li>
-        <li>Technical and usage data (IP address, browser type)</li>
-      </ul>
-    </section>
+        <div>
+            <h4 class="text-m3tViolet font-semibold text-lg mb-4">Services</h4>
+            <ul class="space-y-2">
+                <li><a href="services_quan.html" class="hover:text-[var(--violet)] transition">Quantitative Research</a></li>
+                <li><a href="services_qual.html" class="hover:text-[var(--violet)] transition">Qualitative Research</a></li>
+                <li><a href="services_mystshop.html" class="hover:text-[var(--violet)] transition">Mystery Shopping</a></li>
+                <li><a href="services_dataprocess.html" class="hover:text-[var(--violet)] transition">Data Process</a></li>
+                <li><a href="services_retailstudies.html" class="hover:text-[var(--violet)] transition">Retail Studies</a></li>
+                <li><a href="services_traffic_count.html" class="hover:text-[var(--violet)] transition">Traffic Count</a></li>
+                <li><a href="services_marketmapping.html" class="hover:text-[var(--violet)] transition">Market Mapping</a></li>
+            </ul>
+        </div>
 
-    <section>
-      <h2 class="text-2xl font-semibold text-violetBrand mb-3">4. Purpose of Processing</h2>
-      <ul class="list-disc pl-6 text-white/80 space-y-1">
-        <li>Responding to inquiries and service requests</li>
-        <li>Providing research and data management services</li>
-        <li>Client communication and project coordination</li>
-        <li>Legal and regulatory compliance</li>
-        <li>Website security and performance monitoring</li>
-      </ul>
-    </section>
+        <div>
+            <h4 class="text-m3tViolet font-semibold text-lg mb-4">Contact Info</h4>
+            <p>📍 Pasig City, Philippines</p>
+            <p>📞 0915-946-5969</p>
+            <p>✉ camano_daisy@yahoo.com</p>
+        </div>
 
-    <section>
-      <h2 class="text-2xl font-semibold text-violetBrand mb-3">5. Legal Basis</h2>
-      <p class="text-white/80">
-        Personal data is processed based on consent, contractual necessity,
-        legitimate interests, and legal obligations as permitted under RA 10173.
-      </p>
-    </section>
+    </div>
 
-    <section>
-      <h2 class="text-2xl font-semibold text-violetBrand mb-3">6. Data Security</h2>
-      <ul class="list-disc pl-6 text-white/80 space-y-1">
-        <li>Secure cloud-based storage</li>
-        <li>Encryption of data in transit and at rest</li>
-        <li>Role-based access controls</li>
-        <li>Audit logs and monitoring</li>
-      </ul>
-    </section>
-
-    <section>
-      <h2 class="text-2xl font-semibold text-violetBrand mb-3">7. Data Subject Rights</h2>
-      <ul class="list-disc pl-6 text-white/80 space-y-1">
-        <li>Right to be informed</li>
-        <li>Right to access and correct data</li>
-        <li>Right to object or request erasure</li>
-        <li>Right to data portability</li>
-        <li>Right to lodge a complaint with the National Privacy Commission</li>
-      </ul>
-    </section>
-
-    <section>
-      <h2 class="text-2xl font-semibold text-violetBrand mb-3">8. Contact Information</h2>
-      <p class="text-white/80">
-        📧 Email: [Insert Official Email]<br />
-        📍 Address: [Insert Office Address]
-      </p>
-    </section>
-
-  </main>
-
-  <!-- ===== FOOTER (same as other pages) ===== -->
-  <footer class="border-t border-white/10">
-    <div class="max-w-7xl mx-auto px-6 py-6 flex flex-col md:flex-row justify-between items-center text-sm text-white/60">
-      <span>© 2026 M3T Data Management Services</span>
-      <div class="flex gap-4 mt-3 md:mt-0">
-        <a href="privacy-policy.html" class="hover:text-violetBrand">Privacy Policy</a>
-        <span class="opacity-40">|</span>
-        <a href="sitemap.html" class="hover:text-violetBrand">Sitemap</a>
-      </div>
+    <div class="border-t border-m3tViolet/10">
+        <p class="text-center text-gray-500 py-6 text-sm">
+            © 2026 ArcnoTech Solutions. All Rights Reserved
+            <a href="sitemap.html" class="hover:text-m3tViolet hover:underline transition-colors"> | Sitemap</a>
+            <a href="privacy-policy.html" class="hover:text-m3tViolet hover:underline transition-colors"> | Privacy</a>
+            <a href="terms.html" class="hover:text-m3tViolet hover:underline transition-colors"> | Terms</a>
+            <a href="datadisclaimer.html" class="hover:text-m3tViolet hover:underline transition-colors"> | Data Disclaimer |</a>
+        </p>
     </div>
   </footer>
 
