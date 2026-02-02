@@ -17,131 +17,6 @@
   </style>
 </head>
 
-<!-- CHAT LAUNCHER BUTTON -->
-<button id="chatBtn." 
-    class="fixed bottom-6 right-6 bg-gradient-to-r from-m3tViolet to-m3tBlue text-white p-4 rounded-full shadow-xl hover:opacity-90 transition">
-    💬
-</button>
-
-<!-- CHAT PANEL -->
-<div id="chatPanel" class="fixed bottom-20 right-6 w-80 bg-[#0C122E] border border-m3tViolet/30 rounded-2xl shadow-2xl hidden flex flex-col">
-
-    <!-- HEADER -->
-    <div class="p-4 bg-gradient-to-r from-m3tBlue to-[#080C1C] rounded-t-2xl text-white font-semibold">
-        M3T AI Assistant
-    </div>
-
-    <!-- CHAT BODY -->
-    <div id="chatMessages" class="flex-1 p-4 space-y-3 overflow-y-auto text-gray-200">
-        <!-- Initial message -->
-        <div class="bg-white/5 border border-m3tViolet/20 p-3 rounded-xl">
-            Hello! 👋 How can I assist you with M3T Data Management today?
-        </div>
-
-        <!-- Quick FAQ buttons -->
-        <div class="space-y-2">
-            <button onclick="sendFAQ('services')" 
-                class="w-full text-left px-3 py-2 bg-white/5 rounded-lg hover:bg-white/10 border border-m3tBlue/20">
-                What services do you offer?
-            </button>
-            <button onclick="sendFAQ('coverage')" 
-                class="w-full text-left px-3 py-2 bg-white/5 rounded-lg hover:bg-white/10 border border-m3tBlue/20">
-                What areas do you cover?
-            </button>
-            <button onclick="sendFAQ('contact')" 
-                class="w-full text-left px-3 py-2 bg-white/5 rounded-lg hover:bg-white/10 border border-m3tBlue/20">
-                How can I contact M3T?
-            </button>
-        </div>
-    </div>
-
-    <!-- INPUT AREA -->
-    <div class="p-3 border-t border-m3tViolet/20 flex items-center space-x-2">
-        <input id="userInput" 
-            class="flex-1 bg-[#11172E] text-gray-100 px-3 py-2 rounded-lg border border-m3tViolet/30 outline-none"
-            placeholder="Type a message..." />
-        <button onclick="sendMessage()" 
-            class="px-4 py-2 bg-gradient-to-r from-m3tViolet to-m3tBlue text-white rounded-lg shadow hover:opacity-90">
-            ➤
-        </button>
-    </div>
-</div>
-
-<script>
-    
-const API_URL = 'https://m3t-website-u3ah.vercel.app';
-
-document.getElementById('chatBtn').onclick = () => {
-    const panel = document.getElementById('chatPanel');
-    panel.classList.toggle('hidden');
-    panel.classList.toggle('flex');
-};
-
-async function sendMessage() {
-    const input = document.getElementById('userInput');
-    const msg = input.value.trim();
-    if (!msg) return;
-
-    addUserMessage(msg);
-    input.value = "";
-
-    try {
-        const response = await fetch(`${API_URL}/api/faq`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ message: msg })
-        });
-
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
-        
-        const data = await response.json();
-        addBotMessage(data.reply || 'Sorry, error occurred.');
-    } catch (error) {
-        console.error('Chat error:', error);
-        addBotMessage('Connection error. Try again.');
-    }
-}
-
-async function sendFAQ(type) {
-    try {
-        const response = await fetch(`${API_URL}/api/faq`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ faq: type })
-        });
-
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
-
-        const data = await response.json();
-        addBotMessage(data.reply || 'Sorry, error occurred.');
-    } catch (error) {
-        console.error('FAQ error:', error);
-        addBotMessage('Connection error. Try again.');
-    }
-}
-
-function addUserMessage(text) {
-    document.getElementById('chatMessages').innerHTML += `
-        <div class="text-right">
-            <div class="inline-block bg-m3tViolet/30 px-3 py-2 rounded-xl">${text}</div>
-        </div>`;
-    scrollChat();
-}
-
-function addBotMessage(text) {
-    document.getElementById('chatMessages').innerHTML += `
-        <div class="bg-white/5 border border-m3tBlue/20 p-3 rounded-xl">${text}</div>`;
-    scrollChat();
-}
-
-function scrollChat() {
-    const container = document.getElementById('chatMessages');
-    container.scrollTop = container.scrollHeight;
-}
-</script>
-
-
-
 <body class="bg-[#0A1026] text-gray-100 font-sans">
 
   <!-- Header -->
@@ -316,6 +191,7 @@ function scrollChat() {
   </script>
 </body>
 </html>
+
 
 
 
